@@ -21,7 +21,7 @@ function YAML(action : text):
 
             save yaml "plugin"
 
-         load yaml "plugins/UHCMeetup/language.yml" as "language"
+        load yaml "plugins/UHCMeetup/language.yml" as "language"
         if yaml "language" is empty:
 
             set yaml value "Language.Prefix" from "language" to "&3UHC Meetup &8»"
@@ -68,7 +68,7 @@ command /uhcmeetup [<text>] [<text>] [<text>] [<text>]:
             send "%yaml value ""Language.Prefix"" from ""language""% %yaml value ""Language.helpCommand"" from ""language""%"
         if arg-1 is "help":
             send ""
-            send " &6&lUHC MEETUP &7(Commands)"
+            send " &6&lUHC MEETUP &7(Komutlar)"
             send ""
             send " &e/uhcmeetup stats &8| &fKendi istatistiklerini gösterir."
             send " &e/uhcmeetup market &8| &fCoinlerini harcayabileceğin mağazadır."
@@ -96,7 +96,7 @@ command /uhcmeetup [<text>] [<text>] [<text>] [<text>]:
                 send ""
         if arg-1 is "about":
             send ""
-            send " &6&lUHC MEETUP &7(About)"
+            send " &6&lUHC MEETUP &7(Hakkında)"
             send ""
             send " &fUhc Meetup, oyuncuların boyutu farklılık"
             send " &fgösteren bir alanda birbirleri ile savaşması"
@@ -105,7 +105,7 @@ command /uhcmeetup [<text>] [<text>] [<text>] [<text>]:
             send " &fsürdürdüğü bir oyundur."
             send ""
             send " &fBu eklenti & skript artık ne derseniz, &bPyramids® Studios"
-            send " &fInc. &ftarafından kodlanmış ve tasarlanmıştır."
+            send " &bInc. &ftarafından kodlanmış ve tasarlanmıştır."
             send ""
             send " &fYeni eklentilerden, skriptlerden, paketlerden ve güncellemelerden"
             send " &fhaberdar olmak istiyorsanız discord sunucumuza mutlaka katılın!"
