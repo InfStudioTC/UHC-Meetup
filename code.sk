@@ -1,0 +1,160 @@
+import:
+    org.bukkit.Bukkit
+
+on load:
+    YAML("enable")
+
+on unload:
+    YAML("disable")
+
+function YAML(action : text):
+    if {_action} = "enable":
+
+        load yaml "plugins/UHCMeetup/plugin.yml" as "plugin"
+        if yaml "plugin" is empty:
+
+            set yaml value "Release Date" from "plugin" to "16.04.2022 April"
+            
+            set yaml value "Information.Name" from "plugin" to "UHC Meetup"
+            set yaml value "Information.Author" from "plugin" to "Pyramids® Studios Inc."
+            set yaml value "Information.Version" from "plugin" to "1.0-SNAPSHOT"
+
+            save yaml "plugin"
+
+         load yaml "plugins/UHCMeetup/language.yml" as "language"
+        if yaml "language" is empty:
+
+            set yaml value "Language.Prefix" from "language" to "&3UHC Meetup &8»"
+
+            set yaml value "Language.wrongUsage" from "language" to "&eOlması gereken kullanım: &6/%%command%%"
+            set yaml value "Language.helpCommand" from "language" to "&cBilinmeyen komut. Yardım için &e/uhcmeetup help &cyazın."
+            set yaml value "Language.noPermission" from "language" to "&cBunun için yetkin yok."
+            set yaml value "Language.playerNotPlayedBefore" from "language" to "&e%%player%% &cadlı oyuncunun hiç istatistik kaydı yok."
+            set yaml value "Language.reloadSuccessfully" from "language" to "&aEklenti dosyaları ve ayarları başarıyla yenilendi."
+
+            save yaml "language"
+
+        Bukkit.getConsoleSender().sendMessage("")
+        Bukkit.getConsoleSender().sendMessage("&c  _   _ _  _  ___   __  __ ___ ___ _____ _   _ ___ ")
+        Bukkit.getConsoleSender().sendMessage("&c | | | | || |/ __| |  \/  | __| __|_   _| | | | _ \")
+        Bukkit.getConsoleSender().sendMessage("&f | |_| | __ | (__  | |\/| | _|| _|  | | | |_| |  _/")
+        Bukkit.getConsoleSender().sendMessage("&f  \___/|_||_|\___| |_|  |_|___|___| |_|  \___/|_| ")
+        Bukkit.getConsoleSender().sendMessage("")
+        Bukkit.getConsoleSender().sendMessage("       &eThe plugin was successfully &bloaded!")
+        Bukkit.getConsoleSender().sendMessage("              &aThanks for using <3")
+        Bukkit.getConsoleSender().sendMessage("")
+
+    if {_action} = "disable":
+        unload yaml "language"
+        Bukkit.getConsoleSender().sendMessage("")
+        Bukkit.getConsoleSender().sendMessage("&c  _   _ _  _  ___   __  __ ___ ___ _____ _   _ ___ ")
+        Bukkit.getConsoleSender().sendMessage("&c | | | | || |/ __| |  \/  | __| __|_   _| | | | _ \")
+        Bukkit.getConsoleSender().sendMessage("&f | |_| | __ | (__  | |\/| | _|| _|  | | | |_| |  _/")
+        Bukkit.getConsoleSender().sendMessage("&f  \___/|_||_|\___| |_|  |_|___|___| |_|  \___/|_| ")
+        Bukkit.getConsoleSender().sendMessage("")
+        Bukkit.getConsoleSender().sendMessage("       &eThe plugin was successfully &ddisabled!")
+        Bukkit.getConsoleSender().sendMessage("              &aThanks for using <3")
+        Bukkit.getConsoleSender().sendMessage("")
+
+function reload(p: player):
+    unload yaml "language"
+    load yaml "plugins/UHCMeetup/language.yml" as "language"
+    send "%yaml value ""Language.Prefix"" from ""language""% %yaml value ""Language.reloadSuccessfully"" from ""language""%" to {_p}
+
+command /uhcmeetup [<text>] [<text>] [<text>] [<text>]:
+    aliases: uhc
+    trigger:
+        if arg-1 isn't set:
+            send "%yaml value ""Language.Prefix"" from ""language""% %yaml value ""Language.helpCommand"" from ""language""%"
+        if arg-1 is "help":
+            send ""
+            send " &6&lUHC MEETUP &7(Commands)"
+            send ""
+            send " &e/uhcmeetup stats &8| &fKendi istatistiklerini gösterir."
+            send " &e/uhcmeetup market &8| &fCoinlerini harcayabileceğin mağazadır."
+            send " &e/uhcmeetuo rejoin &8| &fÇıktığın arenaya tekrardan katılabilirsin."
+            send ""
+            if player has permission "uhcmeetup.admin.commands":
+                send " &e/uhcmeetup about &8| &fEklenti hakkında bilgi verir."
+                send " &e/uhcmeetup reload &8| &fEklentiyi ve dosyaları yeniler."
+                send ""
+                send " &e/uhcmeetup stats <player> &8| &fBir oyuncunun istatistiğini gösterir."
+                send " &e/uhcmeetup setCoin <player> <int> &8| &fBir oyuncunun coin miktarını ayarlar."
+                send " &e/uhcmeetup setLevel <player> <level> &8| &fBir oyuncunun seviyesini ayarlar."
+                send ""
+                send " &e/uhcmeetup arena create <id> &8| &fYeni bir arena oluşturur."
+                send " &e/uhcmeetup arena delete <id> &8| &fVar olan bir arenayı siler."
+                send " &e/uhcmeetup arena addSpawnLoc <id> &8| &fBir arenanın doğma noktasını ayarlar."
+                send " &e/uhcmeetup arena setWaitingLoc <id> &8| &fOyun başlamadan önce beklenen yeri ayarlar."
+                send " &e/uhcmeetup arena setSpectatorLoc <id> &8| &fÖlünce izleyicilerin doğacağı yeri ayarlar."
+                send " &e/uhcmeetup arena setMaxPlayers <id> <int> &8| &fArenaya katılabilecek maksimum oyuncuyu ayarlar."
+                send " &e/uhcmeetup arena setMinPlayers <id> <int> &8| &fArenaya katılabilecek minimum oyuncuyu ayarlar."
+                send ""
+                send " &e/uhcmeetup arena setMainLobby &8| &fOyun bittiğinde oyuncuların ışınlanacağı yeri ayarlar."
+                send " &e/uhcmeetup arena forceStart <id> &8| &fBir arenayı manuel olarak başlatır."
+                send " &e/uhcmeetup arena forceStop <id> &8| &fBir arenayı manuel olarak durdurur."
+                send ""
+        if arg-1 is "about":
+            send ""
+            send " &6&lUHC MEETUP &7(About)"
+            send ""
+            send " &fUhc Meetup, oyuncuların boyutu farklılık"
+            send " &fgösteren bir alanda birbirleri ile savaşması"
+            send " &fve zafere giden yolda başarılarını, seviyelerini"
+            send " &fve coinleri gibi ekstra gelişimlerini rekabet olarak"
+            send " &fsürdürdüğü bir oyundur."
+            send ""
+            send " &fBu eklenti & skript artık ne derseniz, &bPyramids® Studios"
+            send " &fInc. &ftarafından kodlanmış ve tasarlanmıştır."
+            send ""
+            send " &fYeni eklentilerden, skriptlerden, paketlerden ve güncellemelerden"
+            send " &fhaberdar olmak istiyorsanız discord sunucumuza mutlaka katılın!"
+            send ""
+            send " &b<tooltip:&eÜzerine tıkla ve git!>https://discord.gg/n9mDNbBr3k"
+            send ""
+        if arg-1 is "reload":
+            reload(player)
+        if arg-1 is "stats":
+            if arg-2 isn't set:
+                stats(player)
+            else:
+                if player has permission "uhcmeetup.admin.stats":
+                    set {_o} to arg-2 parsed as an offline player
+                    statsAdmin(player, {_o})
+                else:
+                    send "%yaml value ""Language.Prefix"" from ""language""% %yaml value ""Language.noPermission"" from ""language""%"
+
+function stats(p: player):
+    send "" to {_p}
+    send " &6&lUHC MEETUP &7(İstatistik: Sen)" to {_p}
+    send "" to {_p}
+    send " &fCoin: &e%{UHC::coin::%{_p}%}%" to {_p}
+    send " &fSeviye: &e%{UHC::level::%{_p}%}%" to {_p}
+    send "" to {_p}
+    send " &fÖlme: &e%{UHC::totalDeaths::%{_p}%}%" to {_p}
+    send " &fÖldürme: &e%{UHC::totalKills::%{_p}%}%" to {_p}
+    send " &fKazanma: &e%{UHC::totalWins::%{_p}%}%" to {_p}
+    send " &fKaybetme: &e%{UHC::totalLoses::%{_p}%}%" to {_p}
+    send "" to {_p}
+    send " &fAçılan Kozmetikler: &e%{UHC::unlockedCosmetics::%{_p}%}%" to {_p}   
+    send "" to {_p}
+
+function statsAdmin(p: player, o: player):
+    if {_o} has played on this server before:
+        send "" to {_p}
+        send " &6&lUHC MEETUP &7(İstatistik: %{_o}%)" to {_p}
+        send "" to {_p}
+        send " &fCoin: &e%{UHC::coin::%{_o}%}%" to {_p}
+        send " &fSeviye: &e%{UHC::level::%{_o}%}%" to {_p}
+        send "" to {_p}
+        send " &fÖlme: &e%{UHC::totalDeaths::%{_o}%}%" to {_p}
+        send " &fÖldürme: &e%{UHC::totalKills::%{_o}%}%" to {_p}
+        send " &fKazanma: &e%{UHC::totalWins::%{_o}%}%" to {_p}
+        send " &fKaybetme: &e%{UHC::totalLoses::%{_o}%}%" to {_p}
+        send "" to {_p}
+        send " &fAçılan Kozmetikler: &e%{UHC::unlockedCosmetics::%{_o}%}%" to {_p}   
+        send "" to {_p}
+    else:
+        set {_msg} to yaml value "Language.playerNotPlayedBefore" from "language"
+        replace "%%player%%" in {_msg} with "%{_o}%"
+        send "%yaml value ""Language.Prefix"" from ""language""% %{_msg}%" to {_p}
